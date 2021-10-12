@@ -33,8 +33,8 @@ namespace webAPIv2
             //AutoFac, Ninject, CastleWindsor, StructureMap, LightInject, DryInject --> IoC Container 
             //AOP
             services.AddControllers();
-            services.AddSingleton<IUserService, UserManager>();
-            services.AddSingleton<IUserDal, EfUsersDal>();
+            //services.AddSingleton<IUserService, UserManager>();
+            //services.AddSingleton<IUserDal, EfUsersDal>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
