@@ -24,37 +24,37 @@ namespace Business.Concrete
 
         public List<User> GetAllByAdress(string adress)
         {
-            return usersDal.GetAll(p => p.uAdress == adress);
+            return usersDal.GetAll(u => u.uAdress == adress);
         }
 
         public List<User> GetAllByMail(string mail)
         {
-            return usersDal.GetAll(p => p.uMail == mail);
+            return usersDal.GetAll(u => u.uMail == mail);
         }
 
         public List<User> GetAllByName(string name)
         {
-            return usersDal.GetAll(p => p.uName == name);
+            return usersDal.GetAll(u => u.uName == name);
         }
 
         public List<User> GetAllByNumber(int number)
         {
-            return usersDal.GetAll(p => p.uNumber == number);
+            return usersDal.GetAll(u => u.uNumber == number);
         }
 
         public List<User> GetAllByRole(int role)
         {
-            return usersDal.GetAll(p => p.uRole == role);
+            return usersDal.GetAll(u => u.uRole == role);
         }
 
         public List<User> GetAllBySurname(string surname)
         {
-            return usersDal.GetAll(p => p.uSurname == surname);
+            return usersDal.GetAll(u => u.uSurname == surname);
         }
 
         public List<User> GetAllByuserID(int id)
         {
-            return usersDal.GetAll(p=>p.uID==id);
+            return usersDal.GetAll(u=>u.uID==id);
         }
     }
 }

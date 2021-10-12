@@ -24,17 +24,17 @@ namespace Business.Concrete
 
         public List<Neighbourhoods> GetAllByCountryID(int id)
         {
-            return neighbourDal.GetAll(p => p.countryID == id);
+            return neighbourDal.GetAll(n => n.countryID == id);
         }
 
         public List<Neighbourhoods> GetAllByID(int id)
         {
-            return neighbourDal.GetAll(p => p.nbID == id);
+            return neighbourDal.GetAll(n => n.nbID == id);
         }
 
         public List<Neighbourhoods> GetAllByName(string name)
         {
-            return neighbourDal.GetAll(p => p.nbName == name);
+            return neighbourDal.GetAll(n => n.nbName == name);
         }
     }
 }

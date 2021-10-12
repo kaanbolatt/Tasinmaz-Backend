@@ -24,37 +24,37 @@ namespace Business.Concrete
 
         public List<Logs> GetAllByDate(string date)
         {
-            return logDal.GetAll(p => p.logDate == date);
+            return logDal.GetAll(l => l.logDate == date);
         }
 
         public List<Logs> GetAllByExp(string exp)
         {
-            return logDal.GetAll(p => p.logExp == exp);
+            return logDal.GetAll(l => l.logExp == exp);
         }
 
         public List<Logs> GetAllByID(int id)
         {
-            return logDal.GetAll(p => p.logID == id);
+            return logDal.GetAll(l => l.logID == id);
         }
 
         public List<Logs> GetAllByIP(int ip)
         {
-            return logDal.GetAll(p => p.uIP == ip);
+            return logDal.GetAll(l => l.uIP == ip);
         }
 
         public List<Logs> GetAllByStatus(string status)
         {
-            return logDal.GetAll(p => p.logStatus == status);
+            return logDal.GetAll(l => l.logStatus == status);
         }
 
         public List<Logs> GetAllByType(string type)
         {
-            return logDal.GetAll(p => p.logType == type);
+            return logDal.GetAll(l => l.logType == type);
         }
 
         public List<Logs> GetAllByUserID(int id)
         {
-            throw new NotImplementedException();
+            return logDal.GetAll(l => l.uID == id);
         }
     }
 }

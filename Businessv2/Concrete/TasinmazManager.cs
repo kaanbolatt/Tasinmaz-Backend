@@ -24,52 +24,52 @@ namespace Business.Concrete
 
         public List<Tasinmaz> GetAllByAda(int ada)
         {
-            return tasinmazDal.GetAll(p => p.ada == ada);
+            return tasinmazDal.GetAll(t => t.ada == ada);
         }
 
         public List<Tasinmaz> GetAllByCountryID(int id)
         {
-            return tasinmazDal.GetAll(p => p.countryID == id);
+            return tasinmazDal.GetAll(t => t.countryID == id);
         }
 
         public List<Tasinmaz> GetAllByID(int id)
         {
-            return tasinmazDal.GetAll(p => p.tID == id);
+            return tasinmazDal.GetAll(t => t.tID == id);
         }
 
         public List<Tasinmaz> GetAllByKoordinatX(int x)
         {
-            return tasinmazDal.GetAll(p => p.koordinatX == x);
+            return tasinmazDal.GetAll(t => t.koordinatX == x);
         }
 
         public List<Tasinmaz> GetAllByKoordinatY(int y)
         {
-           return tasinmazDal.GetAll(p => p.koordinatY == y);
+           return tasinmazDal.GetAll(t => t.koordinatY == y);
         }
 
         public List<Tasinmaz> GetAllBynbID(int id)
         {
-            return tasinmazDal.GetAll(p => p.nbID == id);
+            return tasinmazDal.GetAll(t => t.nbID == id);
         }
 
         public List<Tasinmaz> GetAllByNitelik(string nitelik)
         {
-            return tasinmazDal.GetAll(p => p.nitelik == nitelik);
+            return tasinmazDal.GetAll(t => t.nitelik == nitelik);
         }
 
         public List<Tasinmaz> GetAllByParsel(int parsel)
         {
-            return tasinmazDal.GetAll(p => p.parsel == parsel);
+            return tasinmazDal.GetAll(t => t.parsel == parsel);
         }
 
         public List<Tasinmaz> GetAllByProvinceID(int id)
         {
-            return tasinmazDal.GetAll(p => p.tID == id);
+            return tasinmazDal.GetAll(t => t.tID == id);
         }
 
         public List<Tasinmaz> GetAllByUserID(int id)
         {
-            return tasinmazDal.GetAll(p => p.tID == id);
+            return tasinmazDal.GetAll(t => t.tID == id);
         }
     }
 }
