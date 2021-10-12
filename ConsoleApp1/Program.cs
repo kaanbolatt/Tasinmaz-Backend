@@ -9,12 +9,23 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            UserMethod();
-            CountryMethod();
-            LogMethod();
-            ProvinceMethod();
-            NeighbourMethod();
-            TasinmazMethod();
+            //DTO = Data Transformation Object
+            //UserMethod();
+            //CountryMethod();
+            //LogMethod();
+            //ProvinceMethod();
+            //NeighbourMethod();
+            //TasinmazMethod();
+            //UserDetailMethod();
+        }
+
+        private static void UserDetailMethod()
+        {
+            UserManager userManager = new UserManager(new EfUsersDal());
+            foreach (var user in userManager.GetUserDetails())
+            {
+                Console.WriteLine(user.koordinatX + " " + user.userID);
+            }
         }
 
         private static void TasinmazMethod()

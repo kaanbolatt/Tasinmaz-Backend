@@ -1,4 +1,6 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,14 +9,19 @@ namespace Business.Abstract
 {
     public interface IUserService
     {
-        List<User> GetAll();
-        List<User> GetAllByName(string name);
-        List<User> GetAllByuserID(int id);
-        List<User> GetAllBySurname(string surname);
-        List<User> GetAllByMail(string mail);
-        List<User> GetAllByRole(int role);
-        List<User> GetAllByNumber(int number);
-        List<User> GetAllByAdress(string adress);
+        IDataResult<List<User>> GetAll();
+        //List<User> GetAll();
+        IDataResult<List<User>> GetAllByName(string name);
+        IDataResult<List<User>> GetAllByuserID(int id);
+        IDataResult<List<User>> GetAllBySurname(string surname);
+        IDataResult<List<User>> GetAllByMail(string mail);
+        IDataResult<List<User>> GetAllByRole(int role);
+        IDataResult<List<User>> GetAllByNumber(int number);
+        IDataResult<List<User>> GetAllByAdress(string adress);
+        IDataResult<List<UserDetailDto>> GetUserDetails();
+
+        IResult Add(User user);
+        IDataResult<User> GetById(int userID);
 
     }
 }

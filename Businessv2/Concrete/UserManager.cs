@@ -1,6 +1,9 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,12 +17,26 @@ namespace Business.Concrete
         {
             usersDal = userDal;
         }
-        
-        public List<User> GetAll()
+
+        public IResult Add(User user)
         {
-            //iş kodları
-            //yetkisi var mı?
-            return usersDal.GetAll();
+            if (user.uName.Length < 6)
+            {
+                //magic string
+                return new ErrorResult(Messages.UserNameInvalid);
+            }
+            //business codes. eklemeden önceki kurallar buraya yazılır.
+            usersDal.Add(user);
+            return new SuccessResult(Messages.UserAdded);
+        }
+
+        public IDataResult<List<User>> GetAll()
+        {
+            if(DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult();
+            }
+            return new SuccessDataResult<List<User>>(usersDal.GetAll(),true,"Üyeler listelendi.");
         }
 
         public List<User> GetAllByAdress(string adress)
@@ -55,6 +72,16 @@ namespace Business.Concrete
         public List<User> GetAllByuserID(int id)
         {
             return usersDal.GetAll(u=>u.uID==id);
+        }
+
+        public User GetById(int userID)
+        {
+            return usersDal.Get(u=>u.uID == userID);
+        }
+
+        public List<UserDetailDto> GetUserDetails()
+        {
+            return usersDal.GetUserDetails();
         }
     }
 }
