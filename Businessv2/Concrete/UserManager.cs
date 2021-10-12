@@ -34,54 +34,58 @@ namespace Business.Concrete
         {
             if(DateTime.Now.Hour == 22)
             {
-                return new ErrorDataResult();
+                return new ErrorDataResult<List<User>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<User>>(usersDal.GetAll(),true,"Üyeler listelendi.");
+            return new SuccessDataResult<List<User>>(usersDal.GetAll(),Messages.UserListed);
         }
 
-        public List<User> GetAllByAdress(string adress)
+        public IDataResult<List<User>> GetAllByAdress(string adress)
         {
-            return usersDal.GetAll(u => u.uAdress == adress);
+            return new SuccessDataResult<List<User>>(usersDal.GetAll(u => u.uAdress == adress));
         }
 
-        public List<User> GetAllByMail(string mail)
+        public IDataResult<List<User>> GetAllByMail(string mail)
         {
-            return usersDal.GetAll(u => u.uMail == mail);
+            return new SuccessDataResult<List<User>>(usersDal.GetAll(u => u.uMail == mail));
         }
 
-        public List<User> GetAllByName(string name)
+        public IDataResult<List<User>> GetAllByName(string name)
         {
-            return usersDal.GetAll(u => u.uName == name);
+            return new SuccessDataResult<List<User>>( usersDal.GetAll(u => u.uName == name));
         }
 
-        public List<User> GetAllByNumber(int number)
+        public IDataResult<List<User>> GetAllByNumber(int number)
         {
-            return usersDal.GetAll(u => u.uNumber == number);
+            return new SuccessDataResult<List<User>>(usersDal.GetAll(u => u.uNumber == number));
         }
 
-        public List<User> GetAllByRole(int role)
+        public IDataResult<List<User>> GetAllByRole(int role)
         {
-            return usersDal.GetAll(u => u.uRole == role);
+            return new SuccessDataResult<List<User>>(usersDal.GetAll(u => u.uRole == role));
         }
 
-        public List<User> GetAllBySurname(string surname)
+        public IDataResult<List<User>> GetAllBySurname(string surname)
         {
-            return usersDal.GetAll(u => u.uSurname == surname);
+            return new SuccessDataResult<List<User>>(usersDal.GetAll(u => u.uSurname == surname));
         }
 
-        public List<User> GetAllByuserID(int id)
+        public IDataResult<List<User>> GetAllByuserID(int id)
         {
-            return usersDal.GetAll(u=>u.uID==id);
+            return new SuccessDataResult<List<User>>(usersDal.GetAll(u=>u.uID==id));
         }
 
-        public User GetById(int userID)
+        public IDataResult<User> GetById(int userID)
         {
-            return usersDal.Get(u=>u.uID == userID);
+            return new SuccessDataResult<User>(usersDal.Get(u=>u.uID == userID));
         }
 
-        public List<UserDetailDto> GetUserDetails()
+        public IDataResult<List<UserDetailDto>> GetUserDetails()
         {
-            return usersDal.GetUserDetails();
+            //if (DateTime.Now.Hour == 11)
+            //{
+            //    return new ErrorDataResult<List<UserDetailDto>>(Messages.MaintenanceTime);
+            //}
+            return new SuccessDataResult<List<UserDetailDto>>(usersDal.GetUserDetails());
         }
     }
 }

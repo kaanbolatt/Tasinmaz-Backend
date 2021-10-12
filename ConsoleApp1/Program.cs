@@ -16,18 +16,25 @@ namespace ConsoleApp1
             //ProvinceMethod();
             //NeighbourMethod();
             //TasinmazMethod();
-            //UserDetailMethod();
+            UserDetailMethod();
         }
 
         private static void UserDetailMethod()
         {
             UserManager userManager = new UserManager(new EfUsersDal());
-            foreach (var user in userManager.GetUserDetails())
+            var result = userManager.GetUserDetails();
+            if (result.Success)
             {
-                Console.WriteLine(user.koordinatX + " " + user.userID);
+                foreach (var user in result.Data)
+                {
+                    Console.WriteLine(user.koordinatX + " " + user.userID);
+                }
             }
-        }
-
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+            }
         private static void TasinmazMethod()
         {
             TasinmazManager tasinmazsManager = new TasinmazManager(new EfTasinmazDal());
@@ -79,7 +86,7 @@ namespace ConsoleApp1
         private static void UserMethod()
         {
             UserManager userManager = new UserManager(new EfUsersDal());
-            foreach (var user in userManager.GetAll())
+            foreach (var user in userManager.GetAll().Data)
             {
                 Console.WriteLine("[USERS]\nID: " + user.uID + " | Name: " + user.uName + " | Surname: " + user.uSurname + " | E-Mail: " + user.uMail + " | Number: " + user.uNumber + " | Role " + user.uRole + " | Adress: " + user.uAdress);
             }
