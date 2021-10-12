@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -9,28 +10,30 @@ namespace Business.Concrete
 {
     public class ProvincesManager : IProvincesService
     {
-        IProvincesDal provinceDal;
+        IProvincesDal _provinceDal;
         public ProvincesManager(IProvincesDal provincesDal)
         {
-            provinceDal = provincesDal;
+            _provinceDal = provincesDal;
         }
         
-        public List<Provinces> GetAll()
+        public IDataResult<List<Provinces>> GetAll()
         {
             //iş kodları
             //yetkisi var mı?
-            return provinceDal.GetAll();
+            return new SuccessDataResult<List<Provinces>>(_provinceDal.GetAll());
         }
 
-        public List<Provinces> GetAllByName(string name)
+        public IDataResult<Provinces> GetByName(string name)
         {
-            return provinceDal.GetAll(p => p.provinceName == name);
+            return new SuccessDataResult<Provinces>(_provinceDal.Get(p => p.provinceName == name));
         }
 
 
-        public List<Provinces> GetlAllByID(int id)
+        public IDataResult<Provinces> GetByID(int id)
         {
-            return provinceDal.GetAll(p => p.provinceID == id);
+            return new SuccessDataResult<Provinces>(_provinceDal.Get(p => p.provinceID == id));
         }
+
+
     }
 }

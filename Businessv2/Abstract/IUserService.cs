@@ -20,6 +20,7 @@ namespace Business.Abstract
         IDataResult<List<User>> GetAllByAdress(string adress);
         IDataResult<List<UserDetailDto>> GetUserDetails();
         IResult Add(User user);
+        IResult Update(User user);
         IDataResult<User> GetById(int userID);
 
     }
