@@ -19,7 +19,6 @@ namespace Business.Abstract
         IDataResult<List<User>> GetAllByNumber(int number);
         IDataResult<List<User>> GetAllByAdress(string adress);
         IDataResult<List<UserDetailDto>> GetUserDetails();
-
         IResult Add(User user);
         IDataResult<User> GetById(int userID);
 

@@ -24,6 +24,7 @@ namespace Entities.Concrete
         public int uNumber { get; set; }
 
         public string uAdress { get; set; }
+        public string uPassword { get; set; }
     }
 
  

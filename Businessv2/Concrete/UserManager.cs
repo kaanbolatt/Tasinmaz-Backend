@@ -17,25 +17,26 @@ namespace Business.Concrete
         {
             usersDal = userDal;
         }
-
         public IResult Add(User user)
         {
-            if (user.uName.Length < 6)
-            {
-                //magic string
-                return new ErrorResult(Messages.UserNameInvalid);
-            }
+            
+            //if (user.uName.Length < 6)
+            //{
+            //    //magic string
+            //    return new ErrorResult(Messages.UserNameInvalid);
+            //}
             //business codes. eklemeden önceki kurallar buraya yazılır.
             usersDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
         }
 
+
         public IDataResult<List<User>> GetAll()
         {
-            if(DateTime.Now.Hour == 22)
-            {
-                return new ErrorDataResult<List<User>>(Messages.MaintenanceTime);
-            }
+            //if(DateTime.Now.Hour == 22)
+            //{
+            //    return new ErrorDataResult<List<User>>(Messages.MaintenanceTime);
+            //}
             return new SuccessDataResult<List<User>>(usersDal.GetAll(),Messages.UserListed);
         }
 

@@ -10,5 +10,6 @@ namespace Business.Constants
         public static string UserNameInvalid = "Kullanıcı adı kullanılamaz!";
         public static string UserListed = "Üyeler listelendi.";
         public static string MaintenanceTime = "Sistem bakımda.";
+        public static string UserDeleted = "Üye başarılı bir şekilde silindi.";
     }
 }
