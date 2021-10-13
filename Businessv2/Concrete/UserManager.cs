@@ -31,11 +31,9 @@ namespace Business.Concrete
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
-            //mail adresi varsa eklenemez.
-            //10dan fazla üye eklenemez.
             IResult result = BusinessRules.Run(CheckUserCount(user.uID),
-                CheckUserMail(user.uMail));
-
+                CheckUserMail(user.uMail),
+                CheckPassword(user.uPassword));
 
             if (result != null)
             {
@@ -43,7 +41,21 @@ namespace Business.Concrete
             }
             _usersDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
+        }
 
+        [ValidationAspect(typeof(UserValidator))]
+        public IResult Update(User user)
+        {
+            IResult result = BusinessRules.Run(CheckUserCount(user.uID),
+                CheckUserMail(user.uMail),
+                CheckPassword(user.uPassword));
+
+            if (result != null)
+            {
+                return result;
+            }
+            _usersDal.Update(user);
+            return new SuccessResult(Messages.UserAdded);
         }
 
 
@@ -104,16 +116,12 @@ namespace Business.Concrete
             //}
             return new SuccessDataResult<List<UserDetailDto>>(_usersDal.GetUserDetails());
         }
-        [ValidationAspect(typeof(UserValidator))]
-        public IResult Update(User user)
-        {   
-            var result = _usersDal.GetAll(u => u.uID == user.uID).Count;
-            if (result >= 10)
-            {
-                return new ErrorResult(Messages.UserCountError);
-            }
-            throw new NotImplementedException();
-        }
+
+
+
+
+
+
         private IResult CheckUserCount(int userID)
         {
             var result = _usersDal.GetAll(u => u.uID == userID).Count;
@@ -131,6 +139,48 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.UserMailAlreadyExist);
             }
             return new SuccessResult();
+        }
+        private IResult CheckPassword(string password)
+        {
+            string specialChar = "é<!>'£^#+$%½&/{([)]=}?_-|~@;,.:*";
+            string capitalLetter = "QWERTYUIOPĞÜİŞLKJHGFDSAZXCVBNMÖÇ";
+            string smallLetter = "qwertyuıopğüişlkjhgfdsazxcvbnmöç";
+            string number = "1234567890";
+            bool specialCharIsExist = false;
+            bool capitalLetterIsExist = false;
+            bool smallLetterIsExist = false;
+            bool numberIsExist = false;
+            if (password.Length < 8)
+            {
+                return new ErrorResult(Messages.PasswordLengthError);
+            }
+            else
+            {
+                foreach (char item in password)
+                {
+                    if(capitalLetter.IndexOf(item) != -1)
+                    {
+                        capitalLetterIsExist = true;
+                    }
+                    if(specialChar.IndexOf(item) != -1)
+                    {
+                        specialCharIsExist = true;
+                    }
+                    if(smallLetter.IndexOf(item) != -1)
+                    {
+                        smallLetterIsExist = true;
+                    }
+                    if(number.IndexOf(item) != -1)
+                    {
+                        numberIsExist = true;
+                    }
+                }
+            }
+            if(capitalLetterIsExist == true && specialCharIsExist == true && smallLetterIsExist == true && numberIsExist == true)
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult(Messages.PasswordRules);
         }
     }
 }

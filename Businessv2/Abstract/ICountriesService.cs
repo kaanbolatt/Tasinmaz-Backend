@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,10 +8,10 @@ namespace Business.Abstract
 {
     public interface ICountriesService
     {
-        List<Countries> GetAll();
-        List<Countries> GetAllByID(int id);
-        List<Countries> GetAllByName(string name);
-        List<Countries> GetAllByProvinceID(int id);
+        IDataResult<List<Countries>> GetAll();
+        IDataResult<Countries> GetByID(int id);
+        IDataResult<Countries> GetByName(string name);
+        IDataResult<Countries> GetByProvinceID(int id);
         
     }
 }

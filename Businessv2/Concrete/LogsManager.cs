@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -15,46 +16,46 @@ namespace Business.Concrete
             logDal = logsDal;
         }
         
-        public List<Logs> GetAll()
+        public IDataResult<List<Logs>> GetAll()
         {
             //iş kodları
             //yetkisi var mı?
-            return logDal.GetAll();
+            return new SuccessDataResult<List<Logs>>(logDal.GetAll());
         }
 
-        public List<Logs> GetAllByDate(string date)
+        public IDataResult<Logs> GetByDate(string date)
         {
-            return logDal.GetAll(l => l.logDate == date);
+            return new SuccessDataResult<Logs>(logDal.Get(l => l.logDate == date));
         }
 
-        public List<Logs> GetAllByExp(string exp)
+        public IDataResult<Logs> GetByExp(string exp)
         {
-            return logDal.GetAll(l => l.logExp == exp);
+            return new SuccessDataResult<Logs>(logDal.Get(l => l.logExp == exp));
         }
 
-        public List<Logs> GetAllByID(int id)
+        public IDataResult<Logs> GetByID(int id)
         {
-            return logDal.GetAll(l => l.logID == id);
+            return new SuccessDataResult<Logs>(logDal.Get(l => l.logID == id));
         }
 
-        public List<Logs> GetAllByIP(int ip)
+        public IDataResult<Logs> GetByIP(int ip)
         {
-            return logDal.GetAll(l => l.uIP == ip);
+            return new SuccessDataResult<Logs>(logDal.Get(l => l.uIP == ip));
         }
 
-        public List<Logs> GetAllByStatus(string status)
+        public IDataResult<Logs> GetByStatus(string status)
         {
-            return logDal.GetAll(l => l.logStatus == status);
+            return new SuccessDataResult<Logs>(logDal.Get(l => l.logStatus == status));
         }
 
-        public List<Logs> GetAllByType(string type)
+        public IDataResult<Logs> GetByType(string type)
         {
-            return logDal.GetAll(l => l.logType == type);
+            return new SuccessDataResult<Logs>(logDal.Get(l => l.logType == type));
         }
 
-        public List<Logs> GetAllByUserID(int id)
+        public IDataResult<Logs> GetByUserID(int id)
         {
-            return logDal.GetAll(l => l.uID == id);
+            return new SuccessDataResult<Logs>(logDal.Get(l => l.uID == id));
         }
     }
 }

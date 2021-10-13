@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -15,26 +16,26 @@ namespace Business.Concrete
             countryDal = countriesDal;
         }
         
-        public List<Countries> GetAll()
+        public IDataResult<List<Countries>> GetAll()
         {
             //iş kodları
             //yetkisi var mı?
-            return countryDal.GetAll();
+            return new SuccessDataResult<List<Countries>>(countryDal.GetAll());
         }
 
-        public List<Countries> GetAllByID(int id)
+        public IDataResult<Countries> GetByID(int id)
         {
-            return countryDal.GetAll(c => c.countryID == id);
+            return new SuccessDataResult<Countries>(countryDal.Get(c => c.countryID == id));
         }
 
-        public List<Countries> GetAllByName(string name)
+        public IDataResult<Countries> GetByName(string name)
         {
-            return countryDal.GetAll(c => c.countryName == name);
+            return new SuccessDataResult<Countries>(countryDal.Get(c => c.countryName == name));
         }
 
-        public List<Countries> GetAllByProvinceID(int id)
+        public IDataResult<Countries> GetByProvinceID(int id)
         {
-            return countryDal.GetAll(c => c.provinceID == id);
+            return new SuccessDataResult<Countries>(countryDal.Get(c => c.provinceID == id));
         }
     }
 }

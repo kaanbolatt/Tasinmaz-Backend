@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -15,61 +16,61 @@ namespace Business.Concrete
             tasinmazDal = tasinmazsDal;
         }
         
-        public List<Tasinmaz> GetAll()
+        public IDataResult<List<Tasinmaz>> GetAll()
         {
             //iş kodları
             //yetkisi var mı?
-            return tasinmazDal.GetAll();
+            return new SuccessDataResult<List<Tasinmaz>>(tasinmazDal.GetAll());
         }
 
-        public List<Tasinmaz> GetAllByAda(int ada)
+        public IDataResult<Tasinmaz> GetByAda(int ada)
         {
-            return tasinmazDal.GetAll(t => t.ada == ada);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.ada == ada));
         }
 
-        public List<Tasinmaz> GetAllByCountryID(int id)
+        public IDataResult<Tasinmaz> GetByCountryID(int id)
         {
-            return tasinmazDal.GetAll(t => t.countryID == id);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.countryID == id));
         }
 
-        public List<Tasinmaz> GetAllByID(int id)
+        public IDataResult<Tasinmaz> GetByID(int id)
         {
-            return tasinmazDal.GetAll(t => t.tID == id);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.tID == id));
         }
 
-        public List<Tasinmaz> GetAllByKoordinatX(int x)
+        public IDataResult<Tasinmaz> GetByKoordinatX(int x)
         {
-            return tasinmazDal.GetAll(t => t.koordinatX == x);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.koordinatX == x));
         }
 
-        public List<Tasinmaz> GetAllByKoordinatY(int y)
+        public IDataResult<Tasinmaz> GetByKoordinatY(int y)
         {
-           return tasinmazDal.GetAll(t => t.koordinatY == y);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.koordinatY == y));
         }
 
-        public List<Tasinmaz> GetAllBynbID(int id)
+        public IDataResult<Tasinmaz> GetBynbID(int id)
         {
-            return tasinmazDal.GetAll(t => t.nbID == id);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.nbID == id));
         }
 
-        public List<Tasinmaz> GetAllByNitelik(string nitelik)
+        public IDataResult<Tasinmaz> GetByNitelik(string nitelik)
         {
-            return tasinmazDal.GetAll(t => t.nitelik == nitelik);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.nitelik == nitelik));
         }
 
-        public List<Tasinmaz> GetAllByParsel(int parsel)
+        public IDataResult<Tasinmaz> GetByParsel(int parsel)
         {
-            return tasinmazDal.GetAll(t => t.parsel == parsel);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.parsel == parsel));
         }
 
-        public List<Tasinmaz> GetAllByProvinceID(int id)
+        public IDataResult<Tasinmaz> GetByProvinceID(int id)
         {
-            return tasinmazDal.GetAll(t => t.tID == id);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.tID == id));
         }
 
-        public List<Tasinmaz> GetAllByUserID(int id)
+        public IDataResult<Tasinmaz> GetByUserID(int id)
         {
-            return tasinmazDal.GetAll(t => t.tID == id);
+            return new SuccessDataResult<Tasinmaz>(tasinmazDal.Get(t => t.tID == id));
         }
     }
 }

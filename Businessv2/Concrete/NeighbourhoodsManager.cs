@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -15,26 +16,26 @@ namespace Business.Concrete
             neighbourDal = neighboursDal;
         }
         
-        public List<Neighbourhoods> GetAll()
+        public IDataResult<List<Neighbourhoods>> GetAll()
         {
             //iş kodları
             //yetkisi var mı?
-            return neighbourDal.GetAll();
+            return new SuccessDataResult<List<Neighbourhoods>>(neighbourDal.GetAll());
         }
 
-        public List<Neighbourhoods> GetAllByCountryID(int id)
+        public IDataResult<Neighbourhoods> GetByCountryID(int id)
         {
-            return neighbourDal.GetAll(n => n.countryID == id);
+            return new SuccessDataResult<Neighbourhoods>(neighbourDal.Get(n => n.countryID == id));
         }
 
-        public List<Neighbourhoods> GetAllByID(int id)
+        public IDataResult<Neighbourhoods> GetByID(int id)
         {
-            return neighbourDal.GetAll(n => n.nbID == id);
+            return new SuccessDataResult<Neighbourhoods>(neighbourDal.Get(n => n.nbID == id));
         }
 
-        public List<Neighbourhoods> GetAllByName(string name)
+        public IDataResult<Neighbourhoods> GetByName(string name)
         {
-            return neighbourDal.GetAll(n => n.nbName == name);
+            return new SuccessDataResult<Neighbourhoods>(neighbourDal.Get(n => n.nbName == name));
         }
     }
 }
