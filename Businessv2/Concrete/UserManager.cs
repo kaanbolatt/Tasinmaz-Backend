@@ -33,7 +33,8 @@ namespace Business.Concrete
         {
             IResult result = BusinessRules.Run(CheckUserCount(user.uID),
                 CheckUserMail(user.uMail),
-                CheckPassword(user.uPassword));
+                CheckPassword(user.uPassword),
+                CheckIfProvinceLimitExceded());
 
             if (result != null)
             {
@@ -48,7 +49,8 @@ namespace Business.Concrete
         {
             IResult result = BusinessRules.Run(CheckUserCount(user.uID),
                 CheckUserMail(user.uMail),
-                CheckPassword(user.uPassword));
+                CheckPassword(user.uPassword),
+                CheckIfProvinceLimitExceded());
 
             if (result != null)
             {
@@ -181,6 +183,15 @@ namespace Business.Concrete
                 return new SuccessResult();
             }
             return new ErrorResult(Messages.PasswordRules);
+        }
+        private IResult CheckIfProvinceLimitExceded()
+        {
+            var result = _provinceService.GetAll();
+            if (result.Data.Count > 15)
+            {
+                return new ErrorResult(Messages.ProvinceLimitExceded);
+            }
+            return new SuccessResult();
         }
     }
 }

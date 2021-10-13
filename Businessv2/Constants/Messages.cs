@@ -15,5 +15,6 @@ namespace Business.Constants
         public static string UserCountError = "10'dan fazla üyelik oluşturamazsın.";
         public static string UserMailAlreadyExist = "Bu mail adresi daha önce kullanıldı. Lütfen başka mail adresi girin.";
         public static string PasswordRules = "Şifrenizde en az bir büyük, bir küçük harf, bir rakam ve bir özel karakter olmalıdır.";
+        public static string ProvinceLimitExceded = "Makimum 15 adet şehir olabilir. Bü yüzden şehir eklenmedi.";
     }
 }

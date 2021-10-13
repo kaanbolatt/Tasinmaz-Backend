@@ -19,6 +19,10 @@ namespace Business.DependencyResolvers.Autofac
         {
             builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
             builder.RegisterType<EfUsersDal>().As<IUserDal>().SingleInstance();
+
+            builder.RegisterType<ProvincesManager>().As<IProvincesService>().SingleInstance();
+            builder.RegisterType<EfProvincesDal>().As<IProvincesDal>().SingleInstance();
+
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
