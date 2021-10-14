@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -16,5 +18,15 @@ namespace Business.Constants
         public static string UserMailAlreadyExist = "Bu mail adresi daha önce kullanıldı. Lütfen başka mail adresi girin.";
         public static string PasswordRules = "Şifrenizde en az bir büyük, bir küçük harf, bir rakam ve bir özel karakter olmalıdır.";
         public static string ProvinceLimitExceded = "Makimum 15 adet şehir olabilir. Bü yüzden şehir eklenmedi.";
+        public static string AuthorizationDenied = "Yetersiz yetki.";
+        public static string UserRegistered = "Kullanıcı kaydedildi.";
+        public static string UserNotFound = "Kullanıcı bulunamadı.";
+        public static string PasswordError = "Hatalı Şifre";
+        public static string SuccessfulLogin = "Giriş başarılı.";
+        public static string UserAlreadyExists = "Böyle bir kullanıcı bulunuyor.";
+        public static string AccessTokenCreated = "Access Token yaratıldı.";
+        public static string TasinmazAdded = "Taşınmaz Eklendi";
+        public static string TasinmazUpdated = "Taşınmaz Güncellendi";
+        public static string TasinmazListed = "Taşınmazlar Listelendi.";
     }
 }

@@ -7,13 +7,13 @@ using System.Text;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class UserValidator : AbstractValidator<User>
+    public class TasinmazValidator : AbstractValidator<Tasinmaz>
     {
-        public UserValidator()
+        public TasinmazValidator()
         {
             //RuleFor(u => u.uPassword).NotEmpty();
             //RuleFor(u => u.uPassword).MinimumLength(8);
-            RuleFor(u => u.uMail).EmailAddress();
+           // RuleFor(u => u.uMail).EmailAddress();
            // RuleFor(u => u.uPassword).Must(SpecialChar);
         }
 

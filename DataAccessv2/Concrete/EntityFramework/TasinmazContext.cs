@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Countries> Countries { get; set; }
         public DbSet<Neighbourhoods> Neighbourhoods { get; set; }
         public DbSet<Tasinmaz> Tasinmaz { get; set; }
+        public DbSet<OperationClaim> OperationClaim { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaim { get; set; }
 
 
 

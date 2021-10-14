@@ -14,25 +14,24 @@ namespace webAPIv2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class TasinmazController : ControllerBase
     {
         //Loosely coupled
         //naming convention
         //javascript angular
         //IoC Containe -- Inversion of control
-        IUserService _userService;
+        ITasinmazService _tasinmazService;
 
-        public UsersController(IUserService userService)
+        public TasinmazController(ITasinmazService tasinmazService)
         {
-            _userService = userService;
+            _tasinmazService = tasinmazService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-          
             //Dependency chain --
-             var result = _userService.GetAll();
+             var result = _tasinmazService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -42,7 +41,18 @@ namespace webAPIv2.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _userService.GetAllByID(id);
+            var result = _tasinmazService.GetBytID(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyada")]
+        public IActionResult GetByAda(int ada)
+        {
+            var result = _tasinmazService.GetByAda(ada);
             if (result.Success)
             {
                 return Ok(result);
@@ -51,9 +61,9 @@ namespace webAPIv2.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(User user)
+        public IActionResult Add(Tasinmaz tasinmaz)
         {
-            var result = _userService.Addd(user);
+            var result = _tasinmazService.Add(tasinmaz);
             if (result.Success)
             {
                 return Ok(result);
@@ -62,9 +72,9 @@ namespace webAPIv2.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(User user)
+        public IActionResult Update(Tasinmaz tasinmaz)
         {
-            var result = _userService.Update(user);
+            var result = _tasinmazService.Update(tasinmaz);
             if (result.Success)
             {
                 return Ok(result);

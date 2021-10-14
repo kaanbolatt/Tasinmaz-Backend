@@ -1,4 +1,5 @@
-﻿using DataAccess.Abstract;
+﻿using Core.Entities.Concrete;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -16,7 +17,7 @@ namespace DataAccess.Concrete.InMemory
         public InMemoryUsersDal()
         {
             users = new List<User> {
-                new User { uID = 1, uName = "Kaan", uSurname = "Bolat", uMail = "h2okaan@gmail.com", uAdress = "Çayyolu", uNumber = 2412, uRole = 1 }
+                new User { uID = 1, uName = "Kaan", uSurname = "Bolat", uMail = "h2okaan@gmail.com", uAdress = "Çayyolu", uNumber = 2412}
             };
         }
         public void Add(User user)
@@ -46,6 +47,11 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
+        public List<OperationClaim> GetClaims(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<UserDetailDto> GetUserDetails()
         {
             throw new NotImplementedException();
@@ -58,8 +64,9 @@ namespace DataAccess.Concrete.InMemory
             userToUpdate.uSurname = user.uSurname;
             userToUpdate.uMail = user.uMail;
             userToUpdate.uNumber = user.uNumber;
-            userToUpdate.uRole = user.uRole;
             userToUpdate.uAdress = user.uAdress;
+            userToUpdate.uPasswordSalt = user.uPasswordSalt;
+            userToUpdate.uPasswordHash = user.uPasswordHash;
 
         }
 

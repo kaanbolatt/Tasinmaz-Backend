@@ -1,9 +1,14 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.AutoFac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -19,95 +24,106 @@ namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
-        IUserDal _usersDal;
+        IUserDal _userDal;
         IProvincesService _provinceService;
 
-        public UserManager(IUserDal userDal, IProvincesService provinceService)
+        public UserManager(IUserDal userDal ,IProvincesService provinceService)
         {
-            _usersDal = userDal;
+            _userDal = userDal;
             _provinceService = provinceService;
-
         }
+
+        public List<OperationClaim> GetClaims(User user)
+        {
+            return _userDal.GetClaims(user);
+        }
+
+        public void Add(User user)
+        {
+            _userDal.Add(user);
+        }
+
+        public User GetByMail(string email)
+        {
+            return _userDal.Get(u => u.uMail == email);
+        }
+
+
+
+
+        [SecuredOperation("user.add")]
         [ValidationAspect(typeof(UserValidator))]
-        public IResult Add(User user)
+        [CacheRemoveAspect("IUserService.Get")]
+        public IResult Addd(User user)
         {
             IResult result = BusinessRules.Run(CheckUserCount(user.uID),
                 CheckUserMail(user.uMail),
-                CheckPassword(user.uPassword),
                 CheckIfProvinceLimitExceded());
 
             if (result != null)
             {
                 return result;
             }
-            _usersDal.Add(user);
+            _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
         }
 
         [ValidationAspect(typeof(UserValidator))]
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Update(User user)
         {
             IResult result = BusinessRules.Run(CheckUserCount(user.uID),
                 CheckUserMail(user.uMail),
-                CheckPassword(user.uPassword),
                 CheckIfProvinceLimitExceded());
 
             if (result != null)
             {
                 return result;
             }
-            _usersDal.Update(user);
+            _userDal.Update(user);
             return new SuccessResult(Messages.UserAdded);
         }
 
-
+        [CacheAspect] //key,value
         public IDataResult<List<User>> GetAll()
         {
             //if(DateTime.Now.Hour == 22)
             //{
             //    return new ErrorDataResult<List<User>>(Messages.MaintenanceTime);
             //}
-            return new SuccessDataResult<List<User>>(_usersDal.GetAll(),Messages.UserListed);
+            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UserListed);
         }
 
         public IDataResult<List<User>> GetAllByAdress(string adress)
         {
-            return new SuccessDataResult<List<User>>(_usersDal.GetAll(u => u.uAdress == adress));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uAdress == adress));
         }
 
         public IDataResult<List<User>> GetAllByMail(string mail)
         {
-            return new SuccessDataResult<List<User>>(_usersDal.GetAll(u => u.uMail == mail));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uMail == mail));
         }
 
         public IDataResult<List<User>> GetAllByName(string name)
         {
-            return new SuccessDataResult<List<User>>(_usersDal.GetAll(u => u.uName == name));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uName == name));
         }
 
         public IDataResult<List<User>> GetAllByNumber(int number)
         {
-            return new SuccessDataResult<List<User>>(_usersDal.GetAll(u => u.uNumber == number));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uNumber == number));
         }
 
-        public IDataResult<List<User>> GetAllByRole(int role)
-        {
-            return new SuccessDataResult<List<User>>(_usersDal.GetAll(u => u.uRole == role));
-        }
 
         public IDataResult<List<User>> GetAllBySurname(string surname)
         {
-            return new SuccessDataResult<List<User>>(_usersDal.GetAll(u => u.uSurname == surname));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uSurname == surname));
         }
-
-        public IDataResult<List<User>> GetAllByuserID(int id)
+        [CacheAspect]   
+        [PerformanceAspect(5)]
+        public IDataResult<List<User>> GetAllByID(int userID)
         {
-            return new SuccessDataResult<List<User>>(_usersDal.GetAll(u=>u.uID==id));
-        }
-
-        public IDataResult<User> GetById(int userID)
-        {
-            return new SuccessDataResult<User>(_usersDal.Get(u=>u.uID == userID));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uID == userID));
         }
 
         public IDataResult<List<UserDetailDto>> GetUserDetails()
@@ -116,17 +132,13 @@ namespace Business.Concrete
             //{
             //    return new ErrorDataResult<List<UserDetailDto>>(Messages.MaintenanceTime);
             //}
-            return new SuccessDataResult<List<UserDetailDto>>(_usersDal.GetUserDetails());
+            return new SuccessDataResult<List<UserDetailDto>>(_userDal.GetUserDetails());
         }
-
-
-
-
 
 
         private IResult CheckUserCount(int userID)
         {
-            var result = _usersDal.GetAll(u => u.uID == userID).Count;
+            var result = _userDal.GetAll(u => u.uID == userID).Count;
             if (result >= 10)
             {
                 return new ErrorResult(Messages.UserCountError);
@@ -135,7 +147,7 @@ namespace Business.Concrete
         }
         private IResult CheckUserMail(string mail)
         {
-            var result = _usersDal.GetAll(u => u.uMail == mail).Any();
+            var result = _userDal.GetAll(u => u.uMail == mail).Any();
             if (result)
             {
                 return new ErrorResult(Messages.UserMailAlreadyExist);
@@ -160,25 +172,25 @@ namespace Business.Concrete
             {
                 foreach (char item in password)
                 {
-                    if(capitalLetter.IndexOf(item) != -1)
+                    if (capitalLetter.IndexOf(item) != -1)
                     {
                         capitalLetterIsExist = true;
                     }
-                    if(specialChar.IndexOf(item) != -1)
+                    if (specialChar.IndexOf(item) != -1)
                     {
                         specialCharIsExist = true;
                     }
-                    if(smallLetter.IndexOf(item) != -1)
+                    if (smallLetter.IndexOf(item) != -1)
                     {
                         smallLetterIsExist = true;
                     }
-                    if(number.IndexOf(item) != -1)
+                    if (number.IndexOf(item) != -1)
                     {
                         numberIsExist = true;
                     }
                 }
             }
-            if(capitalLetterIsExist == true && specialCharIsExist == true && smallLetterIsExist == true && numberIsExist == true)
+            if (capitalLetterIsExist == true && specialCharIsExist == true && smallLetterIsExist == true && numberIsExist == true)
             {
                 return new SuccessResult();
             }
@@ -192,6 +204,17 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.ProvinceLimitExceded);
             }
             return new SuccessResult();
+        }
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(User user)
+        {
+            Add(user);
+            if (user.uNumber < 10)
+            {
+                throw new Exception("");
+            }
+            Add(user);
+            return null;
         }
     }
 }
