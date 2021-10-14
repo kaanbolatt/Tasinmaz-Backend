@@ -53,7 +53,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Tasinmaz>(_tasinmazDal.Get(t => t.countryID == id));
         }
        // [CacheAspect]
-        //[PerformanceAspect(5)]
+        [PerformanceAspect(1)]
         public IDataResult<Tasinmaz> GetBytID(int id)
         {
             return new SuccessDataResult<Tasinmaz>(_tasinmazDal.Get(t => t.tID == id));

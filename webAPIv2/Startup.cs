@@ -41,6 +41,7 @@ namespace webAPIv2
             //services.AddSingleton<IUserService, UserManager>();
             //services.AddSingleton<IUserDal, EfUsersDal>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSwaggerDocument();
 
            var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -73,6 +74,10 @@ namespace webAPIv2
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseOpenApi();
+
+            app.UseSwaggerUi3();
 
             app.UseAuthentication();
 

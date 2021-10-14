@@ -31,6 +31,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<TasinmazManager>().As<ITasinmazService>();
             builder.RegisterType<EfTasinmazDal>().As<ITasinmazDal>();
 
+            builder.RegisterType<ProvincesManager>().As<IProvincesService>();
+            builder.RegisterType<EfProvincesDal>().As<IProvincesDal>();
+
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
