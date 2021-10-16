@@ -49,6 +49,17 @@ namespace webAPIv2.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getbyuserid")]
+        public IActionResult GetByuserID(int uID)
+        {
+            var result = _tasinmazService.GetByuserID(uID);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getbyada")]
         public IActionResult GetByAda(int ada)
         {

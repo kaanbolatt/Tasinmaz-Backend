@@ -17,7 +17,7 @@ namespace DataAccess.Concrete.InMemory
         public InMemoryUsersDal()
         {
             users = new List<User> {
-                new User { uID = 1, uName = "Kaan", uSurname = "Bolat", uMail = "h2okaan@gmail.com", uAdress = "Çayyolu", uNumber = 2412}
+                new User { uID = 1, uName = "Kaan", uSurname = "Bolat", uMail = "h2okaan@gmail.com", uAdress = "Çayyolu"}
             };
         }
         public void Add(User user)
@@ -63,10 +63,9 @@ namespace DataAccess.Concrete.InMemory
             userToUpdate.uName = user.uName;
             userToUpdate.uSurname = user.uSurname;
             userToUpdate.uMail = user.uMail;
-            userToUpdate.uNumber = user.uNumber;
             userToUpdate.uAdress = user.uAdress;
-            userToUpdate.uPasswordSalt = user.uPasswordSalt;
-            userToUpdate.uPasswordHash = user.uPasswordHash;
+            //userToUpdate.uPasswordSalt = user.uPasswordSalt;
+            //userToUpdate.uPasswordHash = user.uPasswordHash;
 
         }
 

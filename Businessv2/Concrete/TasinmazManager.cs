@@ -89,9 +89,9 @@ namespace Business.Concrete
             return new SuccessDataResult<Tasinmaz>(_tasinmazDal.Get(t => t.provinceID == id));
         }
 
-        public IDataResult<Tasinmaz> GetByUserID(int id)
+        public IDataResult<Tasinmaz> GetByuserID(int uID)
         {
-            return new SuccessDataResult<Tasinmaz>(_tasinmazDal.Get(t => t.uID == id));
+            return new SuccessDataResult<Tasinmaz>(_tasinmazDal.Get(t => t.uID == uID));
         }
     }
 }

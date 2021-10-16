@@ -5,6 +5,8 @@ using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
 using Entities.DTOs;
 using Business.Abstract;
+using Core.Aspects.Autofac.Validation;
+using Business.ValidationRules.FluentValidation;
 
 namespace Business.Concrete
 {
@@ -18,16 +20,19 @@ namespace Business.Concrete
             _userService = userService;
             _tokenHelper = tokenHelper;
         }
-
+        [ValidationAspect(typeof(UserValidator))]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var user = new User
             {
-                uMail = userForRegisterDto.email,
-                uName = userForRegisterDto.firstName,
-                uSurname = userForRegisterDto.lastName,
+
+
+        uMail = userForRegisterDto.uMail,
+                uName = userForRegisterDto.uName,
+                uSurname = userForRegisterDto.uSurname,
+                uAdress = userForRegisterDto.uAdress,
                 uPasswordHash = passwordHash,
                 uPasswordSalt = passwordSalt,
                 Status = true
@@ -54,7 +59,7 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            if (_userService.GetAllByMail(email) != null)
+            if (_userService.GetByMail(email) != null)
             {
                 return new ErrorResult(Messages.UserAlreadyExists);
             }

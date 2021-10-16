@@ -40,6 +40,7 @@ namespace webAPIv2
             services.AddControllers();
             //services.AddSingleton<IUserService, UserManager>();
             //services.AddSingleton<IUserDal, EfUsersDal>();
+            services.AddCors();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSwaggerDocument();
 
@@ -70,6 +71,8 @@ namespace webAPIv2
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder=>builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

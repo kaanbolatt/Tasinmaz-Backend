@@ -15,13 +15,13 @@ namespace Business.Abstract
         IDataResult<Tasinmaz> GetByCountryID(int id);
         IDataResult<Tasinmaz> GetBynbID(int id);
 
-        IDataResult<Tasinmaz> GetByUserID(int id);
+
         IDataResult<Tasinmaz> GetByAda(int ada);
         IDataResult<Tasinmaz> GetByParsel(int parsel);
         IDataResult<Tasinmaz> GetByNitelik(string nitelik);
         IDataResult<Tasinmaz> GetByKoordinatX(int x);
         IDataResult<Tasinmaz> GetByKoordinatY(int y);
         IResult Update(Tasinmaz tasinmaz);
-
+        IDataResult<Tasinmaz> GetByuserID(int uID);
     }
 }

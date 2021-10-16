@@ -40,7 +40,7 @@ namespace webAPIv2.Controllers
         [HttpPost("register")]
         public ActionResult Register(UserForRegisterDto userForRegisterDto)
         {
-            var userExists = _authService.UserExists(userForRegisterDto.email);
+            var userExists = _authService.UserExists(userForRegisterDto.uMail);
             if (!userExists.Success)
             {
                 return BadRequest(userExists.Message);

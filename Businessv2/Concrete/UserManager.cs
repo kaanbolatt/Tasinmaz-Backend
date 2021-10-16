@@ -51,7 +51,7 @@ namespace Business.Concrete
 
 
 
-        [SecuredOperation("user.add")]
+        //[SecuredOperation("user.add")]
         [ValidationAspect(typeof(UserValidator))]
         [CacheRemoveAspect("IUserService.Get")]
         public IResult Addd(User user)
@@ -108,12 +108,6 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uName == name));
         }
-
-        public IDataResult<List<User>> GetAllByNumber(int number)
-        {
-            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uNumber == number));
-        }
-
 
         public IDataResult<List<User>> GetAllBySurname(string surname)
         {
@@ -204,17 +198,6 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.ProvinceLimitExceded);
             }
             return new SuccessResult();
-        }
-        [TransactionScopeAspect]
-        public IResult AddTransactionalTest(User user)
-        {
-            Add(user);
-            if (user.uNumber < 10)
-            {
-                throw new Exception("");
-            }
-            Add(user);
-            return null;
         }
     }
 }

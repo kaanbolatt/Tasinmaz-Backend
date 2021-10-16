@@ -16,12 +16,10 @@ namespace Business.Abstract
 
         IDataResult<List<User>> GetAll();
         //List<User> GetAll();
-        IResult AddTransactionalTest(User user);
         IDataResult<List<User>> GetAllByName(string name);
         IDataResult<List<User>> GetAllByID(int id);
         IDataResult<List<User>> GetAllBySurname(string surname);
         IDataResult<List<User>> GetAllByMail(string mail);
-        IDataResult<List<User>> GetAllByNumber(int number);
         IDataResult<List<User>> GetAllByAdress(string adress);
         IDataResult<List<UserDetailDto>> GetUserDetails();
         IResult Addd(User user);

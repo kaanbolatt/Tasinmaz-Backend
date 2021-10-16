@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace webAPIv2.Controllers
@@ -30,8 +31,9 @@ namespace webAPIv2.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-          
+
             //Dependency chain --
+           // Thread.Sleep(3000);
              var result = _userService.GetAll();
             if (result.Success)
             {
@@ -49,6 +51,7 @@ namespace webAPIv2.Controllers
             }
             return BadRequest(result);
         }
+
 
         [HttpPost("add")]
         public IActionResult Add(User user)
