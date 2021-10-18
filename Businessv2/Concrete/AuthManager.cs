@@ -7,6 +7,7 @@ using Entities.DTOs;
 using Business.Abstract;
 using Core.Aspects.Autofac.Validation;
 using Business.ValidationRules.FluentValidation;
+using Business.BusinessAspects.AutoFac;
 
 namespace Business.Concrete
 {
@@ -20,6 +21,7 @@ namespace Business.Concrete
             _userService = userService;
             _tokenHelper = tokenHelper;
         }
+        [SecuredOperation("user.add,admin")] //kullanıcı ekleme yetkisi burada.
         [ValidationAspect(typeof(UserValidator))]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
