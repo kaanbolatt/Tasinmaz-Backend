@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace webAPIv2.Controllers
             }
             return BadRequest(result);
         }
-        [HttpGet("getbyid")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var result = _tasinmazService.GetBytID(id);
@@ -71,10 +72,11 @@ namespace webAPIv2.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
-        public IActionResult Add(Tasinmaz tasinmaz)
+
+        [HttpPut("update/{id}")]
+        public IActionResult Update(int id, Tasinmaz tasinmaz)
         {
-            var result = _tasinmazService.Add(tasinmaz);
+            var result = _tasinmazService.Update(id,tasinmaz);
             if (result.Success)
             {
                 return Ok(result);
@@ -82,15 +84,22 @@ namespace webAPIv2.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("update")]
-        public IActionResult Update(Tasinmaz tasinmaz)
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            var result = _tasinmazService.Update(tasinmaz);
+            _tasinmazService.DeleteTasinmaz(id);
+        }
+
+        [HttpPost("add")]
+        public IActionResult Add(Tasinmaz tasinmaz)
+        {
+            var result = _tasinmazService.Add(tasinmaz);
             if (result.Success)
             {
-                return Ok(result);
+                return Ok(result.Message);
             }
-            return BadRequest(result);
+
+            return BadRequest(result.Message);
         }
 
     }

@@ -16,6 +16,8 @@ namespace Business.Abstract
         IDataResult<Logs> GetByDate(string date);
         IDataResult<Logs> GetByExp(string exp);
         IDataResult<Logs> GetByIP(int ip);
-        
+
+        void DeleteLog(int id);
+
     }
 }

@@ -20,6 +20,6 @@ namespace Entities.Concrete
         public int parsel { get; set; }
         public string nitelik { get; set; }
         public int koordinatX { get; set; }
-        public int koordinatY { get; set; }
+        public int koordinatY { get; set; } //kaldir
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
 using Core.Entities.Concrete;
+using Core.Utilities.Security.Hashing;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -33,15 +35,15 @@ namespace webAPIv2.Controllers
         {
 
             //Dependency chain --
-           // Thread.Sleep(3000);
-             var result = _userService.GetAll();
+            // Thread.Sleep(3000);
+            var result = _userService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpGet("getbyid")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var result = _userService.GetAllByID(id);
@@ -64,15 +66,32 @@ namespace webAPIv2.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("update")]
-        public IActionResult Update(User user)
+        [HttpPut("update/{id}")]
+        public IActionResult Update(int id, UserForUpdateDto userUpdate)
         {
-            var result = _userService.Update(user);
-            if (result.Success)
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(userUpdate.password, out passwordHash, out passwordSalt);
+            var user = new User
             {
+                uMail = userUpdate.uMail,
+                uName = userUpdate.uName,
+                uSurname = userUpdate.uSurname,
+                uAdress = userUpdate.uAdress,
+                uPasswordHash = passwordHash,
+                uPasswordSalt = passwordSalt,
+                Status = true
+            };
+
+            var result = _userService.Update(id, user);
+            
                 return Ok(result);
-            }
-            return BadRequest(result);
+            
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _userService.DeleteUser(id);
         }
 
     }

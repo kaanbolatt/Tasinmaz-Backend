@@ -23,18 +23,26 @@ namespace Business.Concrete
         }
         //[SecuredOperation("tasinmaz.add")]
         //[ValidationAspect(typeof(TasinmazValidator))]
-       // [CacheRemoveAspect("ITasinmazService.Get")]
+        // [CacheRemoveAspect("ITasinmazService.Get")]
         public IResult Add(Tasinmaz tasinmaz)
         {
             _tasinmazDal.Add(tasinmaz);
             return new SuccessResult(Messages.TasinmazAdded);
         }
 
-        public IResult Update(Tasinmaz tasinmaz)
+        public IResult Update(int id, Tasinmaz tasinmaz)
         {
-            _tasinmazDal.Update(tasinmaz);
+            _tasinmazDal.UpdateTasinmaz(id,tasinmaz);
             return new SuccessResult(Messages.TasinmazUpdated);
         }
+
+        public void DeleteTasinmaz(int id)
+        {
+            _tasinmazDal.DeleteTasinmaz(id);
+             new SuccessResult(Messages.TasinmazDeleted);
+        }
+
+        // add-delete-update //
 
         public IDataResult<List<Tasinmaz>> GetAll()
         {
@@ -52,7 +60,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Tasinmaz>(_tasinmazDal.Get(t => t.countryID == id));
         }
-       // [CacheAspect]
+        // [CacheAspect]
         [PerformanceAspect(1)]
         public IDataResult<Tasinmaz> GetBytID(int id)
         {
@@ -93,5 +101,12 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Tasinmaz>(_tasinmazDal.Get(t => t.uID == uID));
         }
+
+        public Tasinmaz GetUserById(int id)
+        {
+            return _tasinmazDal.GetTasinmazById(id);
+        }
+
+       
     }
 }

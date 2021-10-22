@@ -10,6 +10,11 @@ namespace DataAccess.Abstract
 {
     public interface ITasinmazDal : IEntityRepository<Tasinmaz>
     {
+        void DeleteTasinmaz(int id);
+        Tasinmaz GetTasinmazById(int id);
+        void UpdateTasinmaz(int id, Tasinmaz tasinmaz);
+
+
 
     }
 }

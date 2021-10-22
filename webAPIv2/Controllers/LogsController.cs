@@ -38,7 +38,7 @@ namespace webAPIv2.Controllers
             }
             return BadRequest(result);
         }
-        [HttpGet("getbyid")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var result = _logService.GetByID(id);
@@ -97,6 +97,11 @@ namespace webAPIv2.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _logService.DeleteLog(id);
         }
     }
 }

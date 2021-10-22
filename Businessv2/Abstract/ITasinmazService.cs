@@ -9,6 +9,12 @@ namespace Business.Abstract
     public interface ITasinmazService
     {
         IResult Add(Tasinmaz tasinmaz);
+        IResult Update(int id, Tasinmaz tasinmaz);
+        void DeleteTasinmaz(int id);
+
+        //
+
+
         IDataResult<List<Tasinmaz>> GetAll();
         IDataResult<Tasinmaz> GetBytID(int id);
         IDataResult<Tasinmaz> GetByProvinceID(int id);
@@ -21,7 +27,8 @@ namespace Business.Abstract
         IDataResult<Tasinmaz> GetByNitelik(string nitelik);
         IDataResult<Tasinmaz> GetByKoordinatX(int x);
         IDataResult<Tasinmaz> GetByKoordinatY(int y);
-        IResult Update(Tasinmaz tasinmaz);
+        
         IDataResult<Tasinmaz> GetByuserID(int uID);
+        
     }
 }

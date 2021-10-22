@@ -32,6 +32,11 @@ namespace DataAccess.Concrete.InMemory
             users.Remove(usersToDelete);
         }
 
+        public void DeleteUser(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public User Get(Expression<Func<User, bool>> filter)
         {
             throw new NotImplementedException();
@@ -48,6 +53,11 @@ namespace DataAccess.Concrete.InMemory
         }
 
         public List<OperationClaim> GetClaims(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetUserById(int id)
         {
             throw new NotImplementedException();
         }
@@ -69,5 +79,9 @@ namespace DataAccess.Concrete.InMemory
 
         }
 
+        public void UpdateUser(int id,User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

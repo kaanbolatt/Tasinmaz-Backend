@@ -51,6 +51,45 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
+        public void DeleteUser(int id)
+        {
+            using(TasinmazContext context = new TasinmazContext())
+            {
+                var deletedUser = GetUserById(id);
+                context.Users.Remove(deletedUser);
+                context.SaveChanges();
+            }
+        }
+
+        public User GetUserById(int id)
+        {
+            using (TasinmazContext context = new TasinmazContext())
+            {
+                return context.Users.Find(id);
+            }
+        }
+
+        public void UpdateUser(int id, User user)
+        {
+            using (TasinmazContext context = new TasinmazContext())
+            {
+
+                var itemToUpdate =  context.Users.Find(id);
+
+                if (itemToUpdate == null)
+                    throw new NullReferenceException();
+
+                itemToUpdate.uName = user.uName;
+                itemToUpdate.uSurname= user.uSurname;
+                itemToUpdate.uMail = user.uMail;
+                itemToUpdate.uPasswordHash= user.uPasswordHash;
+                itemToUpdate.uPasswordSalt = user.uPasswordSalt;
+                context.Users.Update(itemToUpdate);
+                context.SaveChangesAsync();
+            }
+        }
+
+       
     }
     }
 

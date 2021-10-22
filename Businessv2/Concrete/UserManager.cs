@@ -51,6 +51,7 @@ namespace Business.Concrete
 
 
 
+
         //[SecuredOperation("user.add")]
         [ValidationAspect(typeof(UserValidator))]
         [CacheRemoveAspect("IUserService.Get")]
@@ -69,22 +70,23 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
-        [CacheRemoveAspect("IUserService.Get")]
-        public IResult Update(User user)
+       // [CacheRemoveAspect("IUserService.Get")]
+        public IResult Update(int id, User user)
         {
             IResult result = BusinessRules.Run(CheckUserCount(user.uID),
                 CheckUserMail(user.uMail),
                 CheckIfProvinceLimitExceded());
-
+           
+             _userDal.UpdateUser(id,user);
+            return new SuccessDataResult<User>(user, Messages.UserRegistered);
             if (result != null)
             {
                 return result;
             }
-            _userDal.Update(user);
             return new SuccessResult(Messages.UserAdded);
         }
 
-        [CacheAspect] //key,value
+      //  [CacheAspect] //key,value
         public IDataResult<List<User>> GetAll()
         {
             //if(DateTime.Now.Hour == 22)
@@ -198,6 +200,16 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.ProvinceLimitExceded);
             }
             return new SuccessResult();
+        }
+
+        public User GetUserById(int id)
+        {
+            return _userDal.GetUserById(id);
+        }
+
+        public void DeleteUser(int id)
+        {
+            _userDal.DeleteUser(id);
         }
     }
 }

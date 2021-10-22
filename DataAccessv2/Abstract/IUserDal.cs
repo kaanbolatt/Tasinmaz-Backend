@@ -13,6 +13,9 @@ namespace DataAccess.Abstract
     {
         List<OperationClaim> GetClaims(User user);
         List<UserDetailDto> GetUserDetails();
+        void DeleteUser(int id);
+        User GetUserById(int id);
+        void UpdateUser(int id, User user);
 
     }
 }

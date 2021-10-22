@@ -8,6 +8,7 @@ namespace DataAccess.Abstract
 {
     public interface IlogDal : IEntityRepository<Logs>
     {
-
+        void DeleteLog(int id);
+        Logs GetLogById(int id);
     }
 }
