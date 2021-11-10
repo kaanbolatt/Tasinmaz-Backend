@@ -10,13 +10,12 @@ namespace Entities.Concrete
 {
     public class Logs : IEntity
     {
-        [Key]
-        public int logID { get; set; }
-        public string logStatus { get; set; }
-        public string logType { get; set; }
-        public int uID { get; set; }
-        public string logDate { get; set; }
-        public string logExp { get; set; }
-        public int uIP { get; set; }
+        public int Id { get; set; }
+        public string LogStatus { get; set; }
+        public string LogType { get; set; }
+        public int UserId { get; set; }
+        public string LogDate { get; set; }
+        public string LogExp { get; set; }
+        public string LogIp { get; set; }
     }
 }

@@ -2,15 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Entities.Concrete
 {
     public class Countries : IEntity
     {
-        [Key]
-        public int countryID { get; set; }
-        public string countryName { get; set; }
-        public int provinceID { get; set; }
+        public int Id { get; set; }
+        public int ProvinceId { get; set; }
+        public virtual Provinces Province { get; set; }
+        public string CountryName { get; set; }
+        //public virtual Provinces provinces { get; set; }
+        //public virtual List<Neighbourhoods> Nb {get; set;}
     }
 }

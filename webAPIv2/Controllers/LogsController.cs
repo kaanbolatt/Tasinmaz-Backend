@@ -32,13 +32,13 @@ namespace webAPIv2.Controllers
         {
             //Dependency chain --
              var result = _logService.GetAll();
-            if (result.Success)
-            {
+            //if (result.Success)
+            //{
                 return Ok(result);
-            }
-            return BadRequest(result);
+            //}
+            //return BadRequest(result);
         }
-        [HttpGet("getbyid")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var result = _logService.GetByID(id);
@@ -89,7 +89,7 @@ namespace webAPIv2.Controllers
             return BadRequest(result);
         }
         [HttpGet("getbyip")]
-        public IActionResult GetByIP(int ip)
+        public IActionResult GetByIP(string ip)
         {
             var result = _logService.GetByIP(ip);
             if (result.Success)
@@ -97,6 +97,23 @@ namespace webAPIv2.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _logService.DeleteLog(id);
+        }
+        [HttpPost("add")]
+        public IActionResult Add(Logs logs)
+        {
+            var result = _logService.Add(logs);
+            if (result.Success)
+            {
+
+                return Ok(result.Message);
+            }
+
+            return BadRequest(result.Message);
         }
     }
 }

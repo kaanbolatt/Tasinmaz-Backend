@@ -8,8 +8,8 @@ namespace Entities.Concrete
 {
     public class Provinces : IEntity
     {
-        [Key]
-        public int provinceID { get; set; }
-        public string provinceName { get; set; }
+        public int Id { get; set; }
+        public string ProvinceName { get; set; }
+        //public virtual List<Countries> Countries { get; set; }
     }
 }

@@ -10,32 +10,32 @@ namespace Business.Concrete
 {
     public class NeighbourhoodsManager : INeighbourhoodsService
     {
-        INeighbourhoodsDal neighbourDal;
+        INeighbourhoodsDal _neighbourDal;
         public NeighbourhoodsManager(INeighbourhoodsDal neighboursDal)
         {
-            neighbourDal = neighboursDal;
+            _neighbourDal = neighboursDal;
         }
         
         public IDataResult<List<Neighbourhoods>> GetAll()
         {
             //iş kodları
             //yetkisi var mı?
-            return new SuccessDataResult<List<Neighbourhoods>>(neighbourDal.GetAll());
+            return new SuccessDataResult<List<Neighbourhoods>>(_neighbourDal.GetAll());
         }
 
-        public IDataResult<Neighbourhoods> GetByCountryID(int id)
+        public IDataResult<List<Neighbourhoods>> GetByCountryID(int id)
         {
-            return new SuccessDataResult<Neighbourhoods>(neighbourDal.Get(n => n.countryID == id));
+            return new SuccessDataResult<List<Neighbourhoods>>(_neighbourDal.GetAll(n => n.CountriesId == id));
         }
 
         public IDataResult<Neighbourhoods> GetByID(int id)
         {
-            return new SuccessDataResult<Neighbourhoods>(neighbourDal.Get(n => n.nbID == id));
+            return new SuccessDataResult<Neighbourhoods>(_neighbourDal.Get(n => n.Id == id));
         }
 
         public IDataResult<Neighbourhoods> GetByName(string name)
         {
-            return new SuccessDataResult<Neighbourhoods>(neighbourDal.Get(n => n.nbName == name));
+            return new SuccessDataResult<Neighbourhoods>(_neighbourDal.Get(n => n.NbName == name));
         }
     }
 }

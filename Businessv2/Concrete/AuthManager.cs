@@ -5,6 +5,9 @@ using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
 using Entities.DTOs;
 using Business.Abstract;
+using Core.Aspects.Autofac.Validation;
+using Business.ValidationRules.FluentValidation;
+using Business.BusinessAspects.AutoFac;
 
 namespace Business.Concrete
 {
@@ -18,24 +21,28 @@ namespace Business.Concrete
             _userService = userService;
             _tokenHelper = tokenHelper;
         }
-
+       // [SecuredOperation("admin")] //kullanıcı ekleme yetkisi burada.
+        [ValidationAspect(typeof(UserValidator))]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var user = new User
             {
-                uMail = userForRegisterDto.email,
-                uName = userForRegisterDto.firstName,
-                uSurname = userForRegisterDto.lastName,
-                uPasswordHash = passwordHash,
-                uPasswordSalt = passwordSalt,
+
+
+        Mail = userForRegisterDto.uMail,
+                Name = userForRegisterDto.uName,
+                Surname = userForRegisterDto.uSurname,
+                Adress = userForRegisterDto.uAdress,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Rol = userForRegisterDto.uRol,
                 Status = true
             };
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
-
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
             var userToCheck = _userService.GetByMail(userForLoginDto.email);
@@ -44,7 +51,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
-            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.password, userToCheck.uPasswordHash, userToCheck.uPasswordSalt))
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
                 return new ErrorDataResult<User>(Messages.PasswordError);
             }
@@ -54,7 +61,7 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            if (_userService.GetAllByMail(email) != null)
+            if (_userService.GetByMail(email) != null)
             {
                 return new ErrorResult(Messages.UserAlreadyExists);
             }
@@ -64,7 +71,7 @@ namespace Business.Concrete
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
             var claims = _userService.GetClaims(user);
-            var accessToken = _tokenHelper.CreateToken(user, claims);
+            var accessToken = _tokenHelper.CreateToken(user,claims);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
     }

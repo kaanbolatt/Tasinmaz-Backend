@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Entities.Concrete;
+using System.Security.Claims;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,10 +15,12 @@ namespace webAPIv2.Controllers
     public class AuthController : Controller
     {
         private IAuthService _authService;
+        ILogService _logService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, ILogService logService)
         {
             _authService = authService;
+            _logService = logService;
         }
 
         [HttpPost("login")]
@@ -31,7 +35,18 @@ namespace webAPIv2.Controllers
             var result = _authService.CreateAccessToken(userToLogin.Data);
             if (result.Success)
             {
-                return Ok(result.Data);
+                _logService.Add(
+                   new Logs
+                   {
+                       UserId = userToLogin.Data.Id,
+                       LogStatus = "Başarılı",
+                       LogExp = "Kullanıcı giriş yaptı.",
+                       LogType = "Kullanıcı giriş",
+                       LogDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss "),
+                       LogIp = HttpContext.Connection.RemoteIpAddress.ToString()
+
+                   });
+                return Ok(result);
             }
 
             return BadRequest(result.Message);
@@ -40,7 +55,7 @@ namespace webAPIv2.Controllers
         [HttpPost("register")]
         public ActionResult Register(UserForRegisterDto userForRegisterDto)
         {
-            var userExists = _authService.UserExists(userForRegisterDto.email);
+            var userExists = _authService.UserExists(userForRegisterDto.uMail);
             if (!userExists.Success)
             {
                 return BadRequest(userExists.Message);
@@ -50,6 +65,17 @@ namespace webAPIv2.Controllers
             var result = _authService.CreateAccessToken(registerResult.Data);
             if (result.Success)
             {
+                _logService.Add(
+                   new Logs
+                   {
+                       UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)), //düzeltilmeli
+                       LogStatus = "Başarılı",
+                       LogExp = "Kullanıcı kayıt edildi.",
+                       LogType = "Kullanıcı kayıt",
+                       LogDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss "),
+                       LogIp = HttpContext.Connection.RemoteIpAddress.ToString()
+
+                   });
                 return Ok(result.Data);
             }
 

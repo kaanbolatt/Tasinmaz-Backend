@@ -1,7 +1,9 @@
 ﻿using Core.Entities;
+using Core.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,16 +12,18 @@ namespace Entities.Concrete
 {
     public class Tasinmaz : IEntity
     {
-        [Key]
-        public int tID { get; set; }
-        public int provinceID { get; set; }
-        public int countryID { get; set; }
-        public int nbID { get; set; }
-        public int uID { get; set; }
-        public int ada { get; set; }
-        public int parsel { get; set; }
-        public string nitelik { get; set; }
-        public int koordinatX { get; set; }
-        public int koordinatY { get; set; }
+        public int Id { get; set; }
+        public int Ada { get; set; }
+        public int Parsel { get; set; }
+        public string Nitelik { get; set; } = null!;
+        public string KoordinatX { get; set; } = null!;
+        public string KoordinatY { get; set; } = null!;
+        public int NeighbourhoodsId { get; set; }
+        public int UserId { get; set; }
+        public int ProvinceId { get; set; }
+        public int CountryId { get; set; }
+        public virtual Neighbourhoods Neighbourhoods { get; set; }
+        //public virtual User User { get; set; }
+
     }
 }

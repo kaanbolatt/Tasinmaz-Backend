@@ -19,8 +19,6 @@ namespace Business.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-           // builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
-           // builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
 
             builder.RegisterType<ProvincesManager>().As<IProvincesService>().SingleInstance();
             builder.RegisterType<EfProvincesDal>().As<IProvincesDal>().SingleInstance();
@@ -31,8 +29,20 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<TasinmazManager>().As<ITasinmazService>();
             builder.RegisterType<EfTasinmazDal>().As<ITasinmazDal>();
 
+            builder.RegisterType<LogsManager>().As<ILogService>();
+            builder.RegisterType<EfLogsDal>().As<IlogDal>();
+
             builder.RegisterType<ProvincesManager>().As<IProvincesService>();
             builder.RegisterType<EfProvincesDal>().As<IProvincesDal>();
+
+            builder.RegisterType<CountriesManager>().As<ICountriesService>();
+            builder.RegisterType<EfCountriesDal>().As<ICountriesDal>();
+
+            builder.RegisterType<NeighbourhoodsManager>().As<INeighbourhoodsService>();
+            builder.RegisterType<EfNeighbourhoodsDal>().As<INeighbourhoodsDal>();
+
+            builder.RegisterType<RolManager>().As<IRolService>();
+            builder.RegisterType<EfRolDal>().As<IRolDal>();
 
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();

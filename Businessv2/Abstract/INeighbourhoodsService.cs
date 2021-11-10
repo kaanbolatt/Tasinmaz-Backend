@@ -11,7 +11,7 @@ namespace Business.Abstract
         IDataResult<List<Neighbourhoods>> GetAll();
         IDataResult<Neighbourhoods> GetByID(int id);
         IDataResult<Neighbourhoods> GetByName(string name);
-        IDataResult<Neighbourhoods> GetByCountryID(int id);
+        IDataResult<List<Neighbourhoods>> GetByCountryID(int id);
         
     }
 }

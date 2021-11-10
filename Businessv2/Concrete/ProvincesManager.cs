@@ -18,20 +18,18 @@ namespace Business.Concrete
         
         public IDataResult<List<Provinces>> GetAll()
         {
-            //iş kodları
-            //yetkisi var mı?
             return new SuccessDataResult<List<Provinces>>(_provinceDal.GetAll());
         }
 
         public IDataResult<Provinces> GetByName(string name)
         {
-            return new SuccessDataResult<Provinces>(_provinceDal.Get(p => p.provinceName == name));
+            return new SuccessDataResult<Provinces>(_provinceDal.Get(p => p.ProvinceName == name));
         }
 
 
         public IDataResult<Provinces> GetByID(int id)
         {
-            return new SuccessDataResult<Provinces>(_provinceDal.Get(p => p.provinceID == id));
+            return new SuccessDataResult<Provinces>(_provinceDal.Get(p => p.Id == id));
         }
 
 
