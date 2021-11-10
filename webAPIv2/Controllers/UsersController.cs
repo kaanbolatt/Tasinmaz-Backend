@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,10 +25,11 @@ namespace webAPIv2.Controllers
         //javascript angular
         //IoC Containe -- Inversion of control
         IUserService _userService;
-
-        public UsersController(IUserService userService)
+        ILogService _logService;
+        public UsersController(IUserService userService, ILogService logService)
         {
             _userService = userService;
+            _logService = logService;
         }
 
         [HttpGet("getall")]
@@ -36,12 +38,12 @@ namespace webAPIv2.Controllers
 
             //Dependency chain --
             // Thread.Sleep(3000);
-            var result = _userService.GetAll();
-            if (result.Success)
-            {
+            var result = _userService.GetAll().Data.OrderBy(u => u.Id);
+            //if (result.Success)
+            //{
                 return Ok(result);
-            }
-            return BadRequest(result);
+            //}
+            //return BadRequest(result);
         }
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
@@ -54,6 +56,14 @@ namespace webAPIv2.Controllers
             return BadRequest(result);
         }
 
+        //[HttpGet("{id}")]
+        //public IActionResult GetRol()
+        //{
+        //    var result = _userService.GetClaims();
+
+        //    return BadRequest(result);
+        //}
+
 
         [HttpPost("add")]
         public IActionResult Add(User user)
@@ -61,6 +71,17 @@ namespace webAPIv2.Controllers
             var result = _userService.Addd(user);
             if (result.Success)
             {
+                _logService.Add(
+                   new Logs
+                   {
+                       UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                       LogStatus = "Başarılı",
+                       LogExp = "Kullanıcı eklendi.",
+                       LogType = "Kullanıcı ekleme",
+                       LogDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss "),
+                       LogIp = HttpContext.Connection.RemoteIpAddress.ToString()
+
+                   });
                 return Ok(result);
             }
             return BadRequest(result);
@@ -73,24 +94,46 @@ namespace webAPIv2.Controllers
             HashingHelper.CreatePasswordHash(userUpdate.password, out passwordHash, out passwordSalt);
             var user = new User
             {
-                uMail = userUpdate.uMail,
-                uName = userUpdate.uName,
-                uSurname = userUpdate.uSurname,
-                uAdress = userUpdate.uAdress,
-                uPasswordHash = passwordHash,
-                uPasswordSalt = passwordSalt,
-                Status = true
+                Mail = userUpdate.uMail,
+                Name = userUpdate.uName,
+                Surname = userUpdate.uSurname,
+                Adress = userUpdate.uAdress,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Rol = userUpdate.uRol,
+                Status = true,
             };
 
             var result = _userService.Update(id, user);
-            
-                return Ok(result);
-            
+            _logService.Add(
+                   new Logs
+                   {
+                       UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                       LogStatus = "Başarılı",
+                       LogExp = "Kullanıcı güncellendi.",
+                       LogType = "Kullanıcı güncelleme",
+                       LogDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss "),
+                       LogIp = HttpContext.Connection.RemoteIpAddress.ToString()
+
+                   });
+            return Ok(result);
+
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _logService.Add(
+                   new Logs
+                   {
+                       UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                       LogStatus = "Başarılı",
+                       LogExp = "Kullanıcı silindi.",
+                       LogType = "Kullanıcı silme",
+                       LogDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss "),
+                       LogIp = HttpContext.Connection.RemoteIpAddress.ToString()
+
+                   });
             _userService.DeleteUser(id);
         }
 

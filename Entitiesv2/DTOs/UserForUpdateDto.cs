@@ -13,6 +13,7 @@ namespace Entities.DTOs
         public string uName { get; set; }
         public string uSurname { get; set; }
         public string uAdress { get; set; }
+        public int uRol { get; set; }
 
     }
 }

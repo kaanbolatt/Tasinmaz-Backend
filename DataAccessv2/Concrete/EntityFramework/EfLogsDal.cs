@@ -26,5 +26,15 @@ namespace DataAccess.Concrete.EntityFramework
                 return context.Logs.Find(id);
             }
         }
+        public void addLog(Logs logs)
+        {
+            using (TasinmazContext context = new TasinmazContext())
+            {
+                context.Logs.Add(logs);
+                context.SaveChanges();
+
+
+            }
+        }
     }
 }

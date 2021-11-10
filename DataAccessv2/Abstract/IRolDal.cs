@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,7 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface IlogDal : IEntityRepository<Logs>
+    public interface IRolDal : IEntityRepository<Rol>
     {
-        void DeleteLog(int id);
-        Logs GetLogById(int id);
-        void addLog(Logs logs);
-
     }
 }

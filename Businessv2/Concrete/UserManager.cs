@@ -1,24 +1,16 @@
 ﻿using Business.Abstract;
-using Business.BusinessAspects.AutoFac;
-using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
-using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcerns.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
 using Entities.DTOs;
-using FluentValidation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Business.Concrete
 {
@@ -33,7 +25,7 @@ namespace Business.Concrete
             _provinceService = provinceService;
         }
 
-        public List<OperationClaim> GetClaims(User user)
+        public List<Rol> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
         }
@@ -45,7 +37,7 @@ namespace Business.Concrete
 
         public User GetByMail(string email)
         {
-            return _userDal.Get(u => u.uMail == email);
+            return _userDal.Get(u => u.Mail == email);
         }
 
 
@@ -57,8 +49,8 @@ namespace Business.Concrete
         [CacheRemoveAspect("IUserService.Get")]
         public IResult Addd(User user)
         {
-            IResult result = BusinessRules.Run(CheckUserCount(user.uID),
-                CheckUserMail(user.uMail),
+            IResult result = BusinessRules.Run(CheckUserCount(user.Id),
+                CheckUserMail(user.Mail),
                 CheckIfProvinceLimitExceded());
 
             if (result != null)
@@ -73,17 +65,14 @@ namespace Business.Concrete
        // [CacheRemoveAspect("IUserService.Get")]
         public IResult Update(int id, User user)
         {
-            IResult result = BusinessRules.Run(CheckUserCount(user.uID),
-                CheckUserMail(user.uMail),
-                CheckIfProvinceLimitExceded());
-           
-             _userDal.UpdateUser(id,user);
-            return new SuccessDataResult<User>(user, Messages.UserRegistered);
+            IResult result = BusinessRules.Run(CheckUserMail(user.Mail));
+                
             if (result != null)
             {
                 return result;
             }
-            return new SuccessResult(Messages.UserAdded);
+            _userDal.UpdateUser(id,user);
+            return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
 
       //  [CacheAspect] //key,value
@@ -98,28 +87,28 @@ namespace Business.Concrete
 
         public IDataResult<List<User>> GetAllByAdress(string adress)
         {
-            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uAdress == adress));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.Adress == adress));
         }
 
         public IDataResult<List<User>> GetAllByMail(string mail)
         {
-            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uMail == mail));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.Mail == mail));
         }
 
         public IDataResult<List<User>> GetAllByName(string name)
         {
-            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uName == name));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.Name == name));
         }
 
         public IDataResult<List<User>> GetAllBySurname(string surname)
         {
-            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uSurname == surname));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.Surname == surname));
         }
         [CacheAspect]   
         [PerformanceAspect(5)]
         public IDataResult<List<User>> GetAllByID(int userID)
         {
-            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.uID == userID));
+            return new SuccessDataResult<List<User>> (_userDal.GetAll(u => u.Id == userID));
         }
 
         public IDataResult<List<UserDetailDto>> GetUserDetails()
@@ -134,7 +123,7 @@ namespace Business.Concrete
 
         private IResult CheckUserCount(int userID)
         {
-            var result = _userDal.GetAll(u => u.uID == userID).Count;
+            var result = _userDal.GetAll(u => u.Id == userID).Count;
             if (result >= 10)
             {
                 return new ErrorResult(Messages.UserCountError);
@@ -143,7 +132,7 @@ namespace Business.Concrete
         }
         private IResult CheckUserMail(string mail)
         {
-            var result = _userDal.GetAll(u => u.uMail == mail).Any();
+            var result = _userDal.GetAll(u => u.Mail == mail).Any();
             if (result)
             {
                 return new ErrorResult(Messages.UserMailAlreadyExist);
@@ -211,5 +200,7 @@ namespace Business.Concrete
         {
             _userDal.DeleteUser(id);
         }
+
+
     }
 }

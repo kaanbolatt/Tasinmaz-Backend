@@ -30,6 +30,7 @@ namespace Business.Constants
         public static string TasinmazUpdated = "Taşınmaz Güncellendi.";
         public static string TasinmazListed = "Taşınmazlar Listelendi.";
         public static string TasinmazDeleted = "Taşınmaz silindi.";
-        internal static string logListed;
+        public static string logListed = "Loglar listelendi.";
+        public static string LogsAdded = "Log eklendi.";
     }
 }

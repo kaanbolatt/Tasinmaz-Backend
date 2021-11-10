@@ -23,44 +23,47 @@ namespace Core.Utilities.Security.JWT
             _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
         }
-        public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)
+        public AccessToken CreateToken(User user, List<Rol> rol)
         {
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
             var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);
-            var jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, operationClaims);
+            var jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, rol);
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var token = jwtSecurityTokenHandler.WriteToken(jwt);
+            
 
             return new AccessToken
             {
+
                 Token = token,
                 Expiration = _accessTokenExpiration
             };
+            
 
         }
 
         public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user,
-            SigningCredentials signingCredentials, List<OperationClaim> operationClaims)
+            SigningCredentials signingCredentials, List<Rol> rol)
         {
             var jwt = new JwtSecurityToken(
                 issuer: tokenOptions.Issuer,
                 audience: tokenOptions.Audience,
                 expires: _accessTokenExpiration,
                 notBefore: DateTime.Now,
-                claims: SetClaims(user, operationClaims),
+                claims: SetClaims(user, rol),
                 signingCredentials: signingCredentials
             );
             return jwt;
         }
 
-        private IEnumerable<Claim> SetClaims(User user, List<OperationClaim> operationClaims)
+        private IEnumerable<Claim> SetClaims(User user, List<Rol> rol)
         {
             var claims = new List<Claim>();
-            claims.AddNameIdentifier(user.uID.ToString());
-            claims.AddEmail(user.uMail);
-            claims.AddName($"{user.uName} {user.uSurname}");
-            claims.AddRoles(operationClaims.Select(c => c.Name).ToArray());
+            claims.AddNameIdentifier(user.Id.ToString());
+            claims.AddEmail(user.Mail);
+            claims.AddName($"{user.Name} {user.Surname}");
+            claims.AddRoles(rol.Select(c => c.Name).ToArray());
 
             return claims;
         }

@@ -16,8 +16,8 @@ namespace Entities.DTOs
         public int ada { get; set; }
         public int parsel { get; set; }
         public string nitelik { get; set; }
-        public int koordinatX { get; set; }
-        public int koordinatY { get; set; }
+        public string koordinatX { get; set; }
+        public string koordinatY { get; set; }
 
     }
 }

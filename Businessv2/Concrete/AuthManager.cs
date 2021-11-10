@@ -21,7 +21,7 @@ namespace Business.Concrete
             _userService = userService;
             _tokenHelper = tokenHelper;
         }
-        [SecuredOperation("user.add,admin")] //kullanıcı ekleme yetkisi burada.
+       // [SecuredOperation("admin")] //kullanıcı ekleme yetkisi burada.
         [ValidationAspect(typeof(UserValidator))]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
@@ -31,12 +31,13 @@ namespace Business.Concrete
             {
 
 
-        uMail = userForRegisterDto.uMail,
-                uName = userForRegisterDto.uName,
-                uSurname = userForRegisterDto.uSurname,
-                uAdress = userForRegisterDto.uAdress,
-                uPasswordHash = passwordHash,
-                uPasswordSalt = passwordSalt,
+        Mail = userForRegisterDto.uMail,
+                Name = userForRegisterDto.uName,
+                Surname = userForRegisterDto.uSurname,
+                Adress = userForRegisterDto.uAdress,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Rol = userForRegisterDto.uRol,
                 Status = true
             };
             _userService.Add(user);
@@ -50,7 +51,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
-            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.password, userToCheck.uPasswordHash, userToCheck.uPasswordSalt))
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
                 return new ErrorDataResult<User>(Messages.PasswordError);
             }
@@ -70,7 +71,7 @@ namespace Business.Concrete
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
             var claims = _userService.GetClaims(user);
-            var accessToken = _tokenHelper.CreateToken(user, claims);
+            var accessToken = _tokenHelper.CreateToken(user,claims);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
     }

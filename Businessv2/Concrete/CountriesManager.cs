@@ -10,32 +10,30 @@ namespace Business.Concrete
 {
     public class CountriesManager : ICountriesService
     {
-        ICountriesDal countryDal;
+        ICountriesDal _countryDal;
         public CountriesManager(ICountriesDal countriesDal)
         {
-            countryDal = countriesDal;
+            _countryDal = countriesDal;
         }
         
         public IDataResult<List<Countries>> GetAll()
         {
-            //iş kodları
-            //yetkisi var mı?
-            return new SuccessDataResult<List<Countries>>(countryDal.GetAll());
+            return new SuccessDataResult<List<Countries>>(_countryDal.GetAll());
         }
 
         public IDataResult<Countries> GetByID(int id)
         {
-            return new SuccessDataResult<Countries>(countryDal.Get(c => c.countryID == id));
+            return new SuccessDataResult<Countries>(_countryDal.Get(c => c.Id == id));
         }
 
         public IDataResult<Countries> GetByName(string name)
         {
-            return new SuccessDataResult<Countries>(countryDal.Get(c => c.countryName == name));
+            return new SuccessDataResult<Countries>(_countryDal.Get(c => c.CountryName== name));
         }
 
-        public IDataResult<Countries> GetByProvinceID(int id)
+        public IDataResult<List<Countries>> GetByProvinceID(int id)
         {
-            return new SuccessDataResult<Countries>(countryDal.Get(c => c.provinceID == id));
+            return new SuccessDataResult<List<Countries>>(_countryDal.GetAll(c => c.ProvinceId== id));
         }
     }
 }

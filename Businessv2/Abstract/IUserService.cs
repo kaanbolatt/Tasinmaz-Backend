@@ -11,7 +11,7 @@ namespace Business.Abstract
     public interface IUserService
     {
 
-        List<OperationClaim> GetClaims(User user);
+        List<Rol> GetClaims(User user);
         void Add(User user);
         
 
@@ -21,6 +21,7 @@ namespace Business.Abstract
         IDataResult<List<User>> GetAllByID(int id);
         IDataResult<List<User>> GetAllBySurname(string surname);
         IDataResult<List<User>> GetAllByMail(string mail);
+
         IDataResult<List<User>> GetAllByAdress(string adress);
         IDataResult<List<UserDetailDto>> GetUserDetails();
         IResult Addd(User user);
